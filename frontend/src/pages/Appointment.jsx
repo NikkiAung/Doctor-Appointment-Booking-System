@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { AppContext } from "../contexts/AppContext";
 import { assets } from "../assets/assets_frontend/assets";
-
+import RelatedDoctors from "../components/RelatedDoctors";
 
 const Appointment = () => {
   const {docId} = useParams();
@@ -66,9 +66,9 @@ const Appointment = () => {
     getAvailableSlots();
   },[docInfo])
 
-  useEffect(()=> {
-    console.log(docSlots);
-  },[docSlots])
+  // useEffect(()=> {
+  //   console.log(docSlots);
+  // },[docSlots])
 
   return docInfo && (
     <div>
@@ -123,6 +123,9 @@ const Appointment = () => {
 
         <button className="bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6">Book an appointment</button>
       </div>
+      
+      <RelatedDoctors docId={docInfo._id} speciality={docInfo.speciality} />
+
     </div>
   )
 }
