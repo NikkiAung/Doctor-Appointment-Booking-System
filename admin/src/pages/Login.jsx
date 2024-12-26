@@ -3,7 +3,7 @@ import { assets } from "../assets/assets_admin/assets"
 import axios from 'axios';
 import { useContext } from "react";
 import { AdminContext } from "../context/AdminContext";
-
+import { toast } from 'react-toastify';
 const Login = () => {
   const [state, setState] = useState('Admin')
   const [email,setEmail] = useState('')
@@ -21,7 +21,11 @@ const Login = () => {
             if (data.success) {
                 localStorage.setItem('aToken',data.token)
                 setAToken(data.token)
+            } else {
+                toast.error(data.message)
             }
+        } else {
+            
         }
     } catch (error) {
         
