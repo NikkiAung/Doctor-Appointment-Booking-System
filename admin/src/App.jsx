@@ -1,8 +1,9 @@
-function App() {
-  
+import Login from "./pages/Login"
+
+const App = () => {
   return (
-    <div className="text-3xl font-bold underline">
-      App
+    <div>
+      <Login/>
     </div>
   )
 }
