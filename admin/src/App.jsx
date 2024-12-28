@@ -8,6 +8,7 @@ import DashBoard from "./pages/Admin/DashBoard";
 import AllApointments from "./pages/Admin/AllApointments";
 import AddDoctor from "./pages/Admin/AddDoctor";
 import DoctorsList from "./pages/Admin/DoctorsList";
+import { Routes, Route } from "react-router-dom";
 const App = () => {
   const { aToken } = useContext(AdminContext);
   return (
