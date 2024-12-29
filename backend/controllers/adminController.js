@@ -38,7 +38,7 @@ const addDoctor = async (req,res) => {
             name, 
             email,
             image:imageUrl,
-            password,hashPassword,
+            password:hashPassword,
             speciality,
             degree,
             experience,
