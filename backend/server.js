@@ -22,7 +22,9 @@ app.use('/api/admin',adminRouter)
 app.use('/api/doctor',docRouter)
 //localhost:4000/api/doctor/getDocList
 app.use('/api/user/',userRouter)
-//localhost:4000/api/doctor/getDocList/register
+//localhost:4000/api/user/register
+app.use('/api/user/',userRouter)
+//localhost:4000/api/user/login
 app.get('/',(req,res)=>{
     res.send('API WORKING')
 })
