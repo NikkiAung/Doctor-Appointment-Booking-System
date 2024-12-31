@@ -75,7 +75,6 @@ const getProfile = async (req,res) => {
 const updateProfile = async (req,res) => {
     try {
         const {userId,name,address,gender,dob,phone} = req.body
-        console.log(gender)
         const imageFile = req.file 
         if (!name || !gender || !dob || !phone) {
             return res.json({success:false,message:"User Info Missing!"})
@@ -120,7 +119,7 @@ const bookAppointment = async (req,res) => {
         const userData = await userModel.findById(userId).select('-password');
 
         delete docData.slots_booked;
-        
+
         const appointmentData = {
             userId,
             docId,
@@ -146,4 +145,17 @@ const bookAppointment = async (req,res) => {
     }
 }
 
-export {registerUser,loginUser,getProfile,updateProfile,bookAppointment}
+const listAppointment = async (req,res) => {
+    try {
+        const {userId} = req.body
+        // console.log(userId)
+        const appointments = await appointmentModel.find({userId})
+        // console.log(appointments)
+        res.json({success:true,appointments})
+    } catch (error) {
+        console.log(error)
+        res.json({success:false,message:error.message})
+    }
+}
+
+export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment}
