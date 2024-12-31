@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 
 const MyAppointments = () => {
-  const {BACKEND_URL,token} = useContext(AppContext);
+  const {BACKEND_URL,token,getDoctorsData} = useContext(AppContext);
   const [appointments,setAppointments] = useState([])
   const months = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const slotDateFormat = (slotDate) => {
@@ -17,7 +17,7 @@ const MyAppointments = () => {
     try {
       const {data} = await axios.get(BACKEND_URL+'/api/user/appointments',{headers:{token}})
       if(data.success) {
-        console.log(data.appointments)
+        // console.log(data.appointments)
         setAppointments(data.appointments.reverse())
       }
     } catch (error) {
@@ -26,6 +26,21 @@ const MyAppointments = () => {
     }
   }
 
+  const cancelAppointment = async (appointmentId) => {
+    
+    try {
+      const {data} = await axios.post(BACKEND_URL+'/api/user/cancel-appointment',{appointmentId},{headers:{token}})
+      console.log(appointmentId)
+      if (data.success) {
+        toast.success(data.message)
+        getUserAppointments()
+        getDoctorsData()
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
   useEffect(()=>{
     if(token) {
       getUserAppointments()
@@ -50,12 +65,20 @@ const MyAppointments = () => {
             </div>
             <div></div>
             <div className="flex flex-col gap-2 justify-end">
-              <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-500">
-                Pay Online
-              </button>
-              <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-500">
-                Cancel appointment
-              </button>
+                {
+                  !item.cancelled ?              
+                  <>
+                    <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-500">
+                      Pay Online
+                    </button>
+                    <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-500" onClick={()=>cancelAppointment(item._id)}>
+                      Cancel appointment
+                    </button>
+                  </>
+                  :
+                  <button type="button" className="sm:min-w-48 py-2 border border-red-500 rounded text-red-500">Appointment cancelled</button>
+                }
+
             </div>
           </div>
         ))}
