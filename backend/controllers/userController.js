@@ -73,6 +73,7 @@ const getProfile = async (req,res) => {
 const updateProfile = async (req,res) => {
     try {
         const {userId,name,address,gender,dob,phone} = req.body
+        console.log(gender)
         const imageFile = req.file 
         if (!name || !gender || !dob || !phone) {
             return res.json({success:false,message:"User Info Missing!"})
