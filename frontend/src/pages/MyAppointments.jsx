@@ -50,12 +50,10 @@ const MyAppointments = () => {
       const {data} = await axios.post(BACKEND_URL+'/api/user/checkout-session',{appointmentId,doctorId},{headers:{token}})
       if(data.success) {
         toast.success(data.message)
-        // console.log(data.session.url)
-        console.log(data.session)
         if(data.session.url) {
           // console.log(data.session)
           window.location.href = data.session.url
-          console.log(data.session.url)
+          // await verifyingPaymentStatus(data.session.id,appointmentId)
         }
         else{
           toast.error("Session URL is missing.")
@@ -65,6 +63,32 @@ const MyAppointments = () => {
       toast.error(error.message)
     }
   }
+
+  // const verifyingPaymentStatus = async (sessionId, appointmentId) => {
+  //   console.log('verifyingPaymentStatus frontend!');
+  //   try {
+  //     const { data } = await axios.post(BACKEND_URL + '/api/user/session_status', { sessionId }, { headers: { token } });
+  
+  //     if (data.status === 'open') {
+  //       window.location.href = data.session.url;
+  //     } else if (data.status === 'complete') {
+  //       const { data: updateResponse } = await axios.post(
+  //         BACKEND_URL + '/api/user/updating-db-payment',
+  //         { appointmentId },
+  //         { headers: { token } }
+  //       );
+  //       if (updateResponse.success) {
+  //         toast.success(updateResponse.message);
+  //         navigate('/checkout-success');
+  //       } else {
+  //         toast.error("Something went wrong while processing the payment!");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error verifying payment:", error);
+  //     toast.error(error.message);
+  //   }
+  // };  
 
   useEffect(()=>{
     if(token) {
