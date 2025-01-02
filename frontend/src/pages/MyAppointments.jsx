@@ -2,11 +2,13 @@ import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../contexts/AppContext"
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 const MyAppointments = () => {
   const {BACKEND_URL,token,getDoctorsData} = useContext(AppContext);
   const [appointments,setAppointments] = useState([])
+  const navigate = useNavigate()
   const months = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const slotDateFormat = (slotDate) => {
     const dateArray = slotDate.split('_')
@@ -41,11 +43,36 @@ const MyAppointments = () => {
       toast.error(error.message)
     }
   }
+
+  const paymentHandler = async (appointmentId,doctorId) => {
+    try {
+      console.log(appointmentId)
+      const {data} = await axios.post(BACKEND_URL+'/api/user/checkout-session',{appointmentId,doctorId},{headers:{token}})
+      if(data.success) {
+        toast.success(data.message)
+        // console.log(data.session.url)
+        console.log(data.session)
+        if(data.session.url) {
+          // console.log(data.session)
+          window.location.href = data.session.url
+          console.log(data.session.url)
+        }
+        else{
+          toast.error("Session URL is missing.")
+        }
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
   useEffect(()=>{
     if(token) {
       getUserAppointments()
     }
   },[token])
+
+
   return (
     <div>
       <p className="pb-3 mt-12 font-medium text-zinc-700 border-b">My appointments</p>
@@ -68,9 +95,11 @@ const MyAppointments = () => {
                 {
                   !item.cancelled ?              
                   <>
-                    <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-500">
+                    {!item.payment ? <button onClick={()=>paymentHandler(item._id,item.docId)} className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-500">
                       Pay Online
-                    </button>
+                    </button> :
+                    <button className="sm:min-w-48 py-2 border rounded text-stone-500 bg-indigo-50">Paid</button>
+                    }
                     <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-500" onClick={()=>cancelAppointment(item._id)}>
                       Cancel appointment
                     </button>

@@ -9,6 +9,7 @@ import MyAppointments from "./pages/MyAppointments"
 import Appointments from "./pages/Appointment"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
+import CheckoutSuccess from "./pages/CheckoutSuccess"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/my-profile" element={<MyProfile />}/>
         <Route path="/my-appointments" element={<MyAppointments />}/>
         <Route path="/appointment/:docId" element={<Appointments />}/>
+        <Route path="/checkout-success" element={<CheckoutSuccess />}/>
       </Routes>
       <Footer/>
 

@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import { v2 as cloudinary } from 'cloudinary'
 import doctorModel from "../models/doctorModel.js"
 import appointmentModel from "../models/appointmentModel.js"
+import Stripe from "stripe"
 const registerUser = async (req,res) => {
     const {name, email, password} = req.body
     try {  
@@ -185,4 +186,55 @@ const cancelAppointment = async (req,res) => {
     }
 }
 
-export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment}
+const paymentStripe = async (req,res) => {
+    const {appointmentId,doctorId,userId} = req.body
+    // console.log('appointmentId ' + appointmentId)
+    // console.log('doctorId ' + doctorId)
+    // console.log('userId ' + userId)
+    const appointmentData = await appointmentModel.findById(appointmentId)
+    if(!appointmentData || appointmentData.cancelled) {
+        return res.json({success:false,message:"Appointment Cancelled or not found!"})
+    }
+    try {  
+        // get currently booked doctor
+        const doctor = await doctorModel.findById(doctorId).select('-password');
+        const user = await userModel.findById(userId).select('-password');
+
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+        // create stripe checkout session
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_SITE_URL}/checkout-success`,
+            cancel_url: `${req.protocol}://${req.get('host')}/doctors/${doctor.id}`,
+            customer_email: user.email,
+            client_reference_id: doctor.id,
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'usd',
+                        unit_amount: doctor.fees * 100,
+                        product_data: {
+                            name: doctor.name,
+                            description: doctor.about,
+                            images:[doctor.image]
+                        }
+                    },
+                    quantity:1
+                }
+            ]
+        });
+
+        await appointmentModel.findByIdAndUpdate(appointmentId,{payment:true})
+
+        res.json({success:true,message:"Successfully Paid",session})
+        console.log(session)
+
+    } catch(error) {
+        console.log(error)
+        res.json({success:false,message:error.message})
+    }
+}
+
+export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment,paymentStripe}
