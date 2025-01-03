@@ -9,11 +9,14 @@ import AllApointments from "./pages/Admin/AllApointments";
 import AddDoctor from "./pages/Admin/AddDoctor";
 import DoctorsList from "./pages/Admin/DoctorsList";
 import { Routes, Route } from "react-router-dom";
+import { DoctorContext } from "./context/DoctorContext";
+// import { AdminContext } from "./context/AdminContext"; Note : bundler option no need to import
 const App = () => {
   const { aToken } = useContext(AdminContext);
+  const { dToken } = useContext(DoctorContext)
   return (
     <>
-      {aToken ? (
+      {aToken || dToken ? (
         <div className="bg-[#F8F9FD]">
           <ToastContainer />
           <Navbar/>
