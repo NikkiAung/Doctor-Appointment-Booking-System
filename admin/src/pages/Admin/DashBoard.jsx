@@ -14,35 +14,31 @@ const DashBoard = () => {
   const {slotDateFormat} = useContext(AppContext);
   return dashData && (
     <div className='p-10'>
-      <div className='flex flex-wrap gap-7'>
-        <div className='flex items-center p-6 bg-white gap-3 w-[260px] rounded-lg cursor-pointer hover:scale-105 transition-all'>
-          <div className='bg-indigo-50 rounded-md'>
-            <img src={assets.doctor_icon} alt="" />
-          </div>
+      <div className='flex flex-wrap gap-3'>
+        <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded cursor-pointer hover:scale-105 transition-all'>
+          <img className='w-14' src={assets.doctor_icon} alt="" />
           <div>
-            <p className='text-[25px] font-medium'>{dashData.doctors}</p>
-            <p className='text-gray-400 text-sm'>Doctors</p>
+            <p className='text-xl font-semibold text-gray-600'>{dashData.doctors}</p>
+            <p className='text-gray-400'>Doctors</p>
           </div>
         </div>
-        <div className='flex items-center p-6 bg-white gap-3 w-[260px] rounded-lg cursor-pointer hover:scale-105 transition-all'>
-          <div className='bg-indigo-50 rounded-md'>
-            <img src={assets.appointments_icon} alt="" />
-          </div>
+
+        <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded cursor-pointer hover:scale-105 transition-all'>
+        <img className='w-14' src={assets.appointments_icon} alt="" />
           <div>
-            <p className='text-[25px] font-medium'>{dashData.doctors}</p>
-            <p className='text-gray-400 text-sm'>Appointments</p>
+            <p className='text-xl font-semibold text-gray-600'>{dashData.appointments}</p>
+            <p className='text-gray-400'>Appointments</p>
           </div>
         </div>
-        <div className='flex items-center p-6 bg-white gap-3 w-[260px] rounded-lg cursor-pointer hover:scale-105 transition-all'>
-          <div className='bg-indigo-50 rounded-md'>
-            <img src={assets.patients_icon} alt="" />
-          </div>
+        
+        <div className='flex items-center gap-2 bg-white p-4 min-w-52 rounded cursor-pointer hover:scale-105 transition-all'>
+        <img className='w-14' src={assets.patients_icon} alt="" />
           <div>
-            <p className='text-[25px] font-medium'>{dashData.doctors}</p>
-            <p className='text-gray-400 text-sm'>Patients</p>
+            <p className='text-xl font-semibold text-gray-600'>{dashData.patients}</p>
+            <p className='text-gray-400'>Patients</p>
           </div>
         </div>
-      </div>
+    </div>
 
       <div className='bg-white'>
         <div className='flex items-center gap-2.5 px-4 py-4 mt-10 rounded-t border'>
