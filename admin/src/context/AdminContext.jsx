@@ -78,7 +78,7 @@ const AdminContextProvider = (props) => {
     const value = {
         aToken,setAToken,
         backendUrl,doctors,getAllDoctors,changeAvailability,getAllAppointments,appointments,setAppointments,
-        cancelAppointment,getDashData,dashData,cancelAppointment
+        cancelAppointment,getDashData,dashData
     }
     return (
         <AdminContext.Provider value={value}>
