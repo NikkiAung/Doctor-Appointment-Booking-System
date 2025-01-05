@@ -119,34 +119,31 @@ const MyAppointments = () => {
                 {
                   !item.cancelled ?            
                   <>
-                    {!item.payment && !item.isCompleted ? (
-                      <button onClick={()=>paymentHandler(item._id,item.docId)} className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-500">
-                        Pay Online
-                      </button> 
-                    ) : (
-                      <button className="sm:min-w-48 py-2 border rounded text-stone-500 bg-indigo-50">
-                        Paid
+                  {
+                      item.isCompleted ?
+                      <button className="sm:min-w-48 py-2 border border-green-500 rounded text-green">Completed</button>
+                      : 
+                      <>
+                      {!item.payment ? (
+                        <button onClick={()=>paymentHandler(item._id,item.docId)} className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-500">
+                          Pay Online
+                        </button> 
+                      ) : (
+                        <button className="sm:min-w-48 py-2 border rounded text-stone-500 bg-indigo-50">
+                          Paid
+                        </button>
+                      )
+                      }
+                      <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-500" onClick={()=>cancelAppointment(item._id)}>
+                        Cancel appointment
                       </button>
-                    )
-                    }
-                    <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-500" onClick={()=>cancelAppointment(item._id)}>
-                      Cancel appointment
-                    </button>
-                  </>
-                  : 
-                  <>
-                    {
-                      !item.isCompleted 
-                      ? (
-                        <button className="sm:min-w-48 py-2 border border-green-500 rounded text-green">Completed</button> 
-                      )
-                      : (
-                      <button type="button" className="sm:min-w-48 py-2 border border-red-500 rounded text-red-500">Appointment cancelled</button>
-                      )
+                      </>
                     }
                   </>
+                  :
+                  <button type="button" className="sm:min-w-48 py-2 border border-red-500 rounded text-red-500">Appointment cancelled</button>
                 }
-
+                
             </div>
           </div>
         ))}
