@@ -147,8 +147,8 @@ npm run dev
 | `/api/doctor/appointments`   | GET    | Doctor's appointments   |
 
 
-## 🔗 Admin Panel Access
-🔹 Admin Dashboard: Doctor Appointment Booking System Admin
+## 🔑 Admin Panel Access
+### 🔗 Admin Dashboard: [Doctor Appointment Admin Panel](https://doctor-appointment-booking-system-admin-6rbs.onrender.com/)
 
 🔹 Test Credentials:
 
@@ -161,7 +161,7 @@ npm run dev
 
 ## 🛠️ Deployment
 
-* Frontend can be deployed on Render /Vercel / Netlify.
+* Frontend can be deployed on Render / Vercel / Netlify.
 
 * Backend can be hosted on Render / Railway / Heroku.
 
