@@ -93,7 +93,7 @@ Backend
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/medical-booking-system.git
+git clone https://github.com/NikkiAung/Doctor-Appointment-Booking-System.git
 cd medical-booking-system
 ```
 
